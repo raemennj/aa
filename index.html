@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Roseville 5th Street Fellowship History</title>
+<link rel="manifest" href="./manifest.webmanifest"><link rel="apple-touch-icon" href="./icon-192.png"><meta name="theme-color" content="#13221e">
+<style>
+*{box-sizing:border-box}body{margin:0;background:#13221e;color:#fffaf0;font-family:system-ui,sans-serif;height:100vh;height:100dvh;display:flex;flex-direction:column}main{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain}article,footer>div{max-width:54rem;margin:auto}article{padding:clamp(24px,5vw,64px);padding-bottom:28vh;font-size:clamp(1.85rem,4.5vw,3.25rem);line-height:1.52}h1{font:500 1.16em/1.16 Georgia,serif;margin:0 0 1.1em;padding-top:.5em;color:#e7d09c;text-wrap:balance}p{margin:0 0 1.05em}footer{background:#20332c;border-top:1px solid #526159;padding:12px max(16px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom))}footer>div{display:flex;align-items:center;gap:1.3rem}button{font:700 1rem system-ui;background:#e7d09c;color:#15251d;border:0;border-radius:10px;min-width:6.7rem;height:52px}label{flex:1;max-width:24rem;font-size:.95rem}input{display:block;width:100%;height:28px;margin:0;accent-color:#e7d09c}
+</style>
+<main tabindex="0" aria-label="Reading"><article>
+<h1>Roseville 5th Street Fellowship History</h1>
+<p>The Roseville 5th Street Fellowship is actually a splinter group of the Roseville Tuesday Night Group.</p>
+<p>When the Tuesday night group moved to the Lincoln Street location in 1991, a small group of members remained at the 5th Street location to start the new group.</p>
+<p>The first meeting of the Roseville 5th Street Fellowship was on April 28, 1991.</p>
+<p>There were only a handful of people that attended that first meeting.</p>
+<p>There were no Big Books in the room, no desk, no “Steps” or “Traditions” on the wall.</p>
+<p>One of the members got a Big Book out of his car and the Roseville 5th Street Fellowship had their first meeting of Alcoholics Anonymous.</p>
+<p>Thirty-five years later, the Roseville 5th Street Fellowship holds eighteen meetings each week.</p>
+<p>We also host 24-hour Alcathons on Thanksgiving, Christmas, and New Year’s, and a speaker meeting three times a year.</p>
+</article></main>
+<footer><div><button type="button" id="toggle">▶ Start</button><label>Scroll speed<input type="range" min="5" max="80" value="25" id="speed"></label></div></footer>
+<script>
+const reader=document.querySelector('main'), button=document.querySelector('#toggle'), speed=document.querySelector('#speed');
+let running=false,previous=0,position=0,frame=0;
+function atEnd(){return reader.scrollTop>=reader.scrollHeight-reader.clientHeight-1}
+function stop(){running=false;cancelAnimationFrame(frame);button.textContent=atEnd()?'Restart':reader.scrollTop>1?'▶ Resume':'▶ Start'}
+function tick(now){
+ if(!running)return;
+ if(previous)position+=Math.min(now-previous,100)*Number(speed.value)/1000;
+ previous=now;reader.scrollTop=position;
+ if(atEnd())stop();else frame=requestAnimationFrame(tick);
+}
+button.onclick=()=>{if(running){stop();return}if(atEnd())reader.scrollTop=0;
+ position=reader.scrollTop;previous=0;running=true;button.textContent='Ⅱ Pause';frame=requestAnimationFrame(tick)};
+for(const event of ['pointerdown','wheel','keydown'])reader.addEventListener(event,stop,{passive:true});
+reader.addEventListener('scroll',()=>{if(!running)stop()});
+document.addEventListener('visibilitychange',()=>{if(document.hidden)stop()});
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(() => {});
+</script></html>
